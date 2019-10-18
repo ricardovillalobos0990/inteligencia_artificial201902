@@ -1,4 +1,4 @@
-from numpy import exp, array, random, dot, ravel
+from numpy import exp, array, random, dot, ravel, sum, abs
 from FuncionesActivacion import FuncionesActivacion
 import matplotlib.pyplot as plt
 
@@ -20,6 +20,7 @@ class RedNeuronalSimple(FuncionesActivacion):
         for i in range(self.n):
             salida = self.pensar(self.entradas)
             error = self.salidas - salida
+            self.errores.append(abs(sum(error)))
             ajuste = dot(self.entradas.T, error * self.activacion_prima(salida))
             self.pesos_signaticos += ajuste
             self.esperados.append(ajuste)
@@ -27,10 +28,10 @@ class RedNeuronalSimple(FuncionesActivacion):
     def pensar(self, entrada):
         return self.activacion(dot(entrada, self.pesos_signaticos))
 
-    """
+
     def imprimirResultado(self):
-        return "Hola"
-    """
+        entrada_prueba = array([1,0,0])
+        return f"Predicion para la entrada {entrada_prueba} es {self.pensar(entrada_prueba)}"
 
     def validaractivacion(self):
         if self.nombreactivacion == 'sigmoide':
@@ -42,7 +43,6 @@ class RedNeuronalSimple(FuncionesActivacion):
 
     def generarGrafico(self):
         plt.title("Perceptron")
-        plt.plot([1,2,3,4,5], '-',color='red', Label="Errores")
-        plt.plot([9,8,7,6,5], '*', color='green', Label="Esperados")
+        plt.plot(self.errores, '-',color='red', Label="Errores")
         plt.legend(loc="upper right")
         plt.show()

@@ -93,7 +93,7 @@ class RedesNeuronales:
         inicio =time.time()
         ob.entrenar()
         final = time.time()
-        tiempo = round( final - inicio )
+        tiempo = round(final-inicio,3)
         #Se asigna el valir de TIEMPO a la variable final, despues de la funcion entrenar
 
         cadena = ob.imprimirResultado()
